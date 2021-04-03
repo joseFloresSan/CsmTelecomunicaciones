@@ -292,19 +292,19 @@ return [
             'submenu' => [
                 [
                     'text' => 'Costo de conservacion',
-                    'url'  => '/costodeconservacions',
+                    'url'  => '/reportes/costodeconservacions',
                     'icon'  => 'fas fa-file-signature',
                     'label_color' => 'success',
                 ],   
                 [
                     'text' => 'Costo de pedido',
-                    'url'  => 'admin/pages',
+                    'url'  => '/reportes/costoPedido',
                     'icon'  => 'fas fa-file-signature',
                     'label_color' => 'success',
                 ],   
                 [
                     'text' => 'Indice de exactitud',
-                    'url'  => 'admin/pages',
+                    'url'  => '/reportes/indiceExactitud',
                     'icon'  => 'fas fa-file-signature',
                     'label_color' => 'success',
                 ],   

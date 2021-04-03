@@ -3,7 +3,7 @@
 @section('title', 'Inventario')
 
 @section('content_header')
-    <h1>Costo de conservacion</h1>
+    <h1>Costo de Pedido</h1>
 @stop
 
 @section('content')
@@ -15,42 +15,45 @@
             <th scope="col">Fecha</th>
             <th scope="col">Codigo</th>
             <th scope="col">Nombre</th>            
-            <th scope="col">Costo Mantenimiento</th>
-            <th scope="col">Unidades Anuales</th>
-            <th scope="col">Unidades Mensuales</th>            
-            <th scope="col">Precio</th>
-            <th scope="col">Inventario Promedio</th>
-            <th scope="col">CTM</th>
+            <th scope="col">Stock Teorico</th>
+            <th scope="col">Stock Real</th>
+            <th scope="col">Indice de Exactitud</th>
+            
             <th scope="col">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($costosConservacion as $dataCostoConservacion)
+        @foreach($indiceExactitud as $dataIndiceExactitud)
             <tr>
-                <td>{{$dataCostoConservacion->id_producto}} </td>
-                <td>{{$dataCostoConservacion->created_at}} </td>
-                <td>{{$dataCostoConservacion->codigo}} </td>
-                <td>{{$dataCostoConservacion->nombre}} </td>                
-                <td>{{$dataCostoConservacion->costoDeMantenimiento}} % </td>
-                <td>{{$dataCostoConservacion->unidadesAnuales}} </td>
-                <td>{{$dataCostoConservacion->unidadesMensuales}} </td>
-                <td>{{$dataCostoConservacion->precio}} </td>
-                <td>{{$dataCostoConservacion->inventarioPromedio}} </td>                
-                <td>{{$dataCostoConservacion->costoConservacion}} </td>
+                <td>{{$dataIndiceExactitud->id_producto}} </td>
+                <td>{{$dataIndiceExactitud->created_at}} </td>
+                <td>{{$dataIndiceExactitud->codigo}} </td>
+                <td>{{$dataIndiceExactitud->nombre}} </td>                
+                <td>{{$dataIndiceExactitud->stockTeorico}} </td>
+                <td>{{$dataIndiceExactitud->stockReal}} </td>
+                <td>{{$dataIndiceExactitud->indiceExactitud}}</td>       
                 <td>
-                    <form action="{{route ('costodeconservacions.destroy',$dataCostoConservacion->id_producto)}}" method="POST">
-                    
+                    <!-- <form action="{{route ('costodeconservacions.destroy',$dataIndiceExactitud->id_producto)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Borrar</button>
-                    </form>
+                    </form> -->
+                    <a href="" data-target="#modal-edit-{{$dataIndiceExactitud->id_producto}}" data-toggle="modal">
+                        <button class="btn btn-success">
+                            <i class="fas fa-edit"></i>
+                            Stock Real
+                        </button>
+                    </a>
                 </td>
-
+               
             </tr>
+
+            @include('indiceExactitud.modalStockReal')
         @endforeach
     </tbody>
 
 </table>
+    
 @stop
 
 @section('css')

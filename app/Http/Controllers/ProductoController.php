@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\Reportes;
+use Illuminate\Support\Facades\DB;
+
 
 
 class ProductoController extends Controller
@@ -15,8 +18,8 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos  =Producto::all();
-        return view('producto.index')->with('productos',$productos);
+        $productos  = Producto::all();
+        return view('producto.index')->with('productos', $productos);
     }
 
     /**
@@ -37,33 +40,29 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $productos =new Producto();
-        $productos->codigo=$request->get('codigo');
-        $productos->nombre=$request->get('nombre');
-        $productos->costopororden=$request->get('costopororden');
-        $productos->costodemantenimiento=$request->get('costodemantenimiento');
-        $productos->unidadesanuales=$request->get('unidadesanuales');
-        $productos->unidadesmensuales=$request->get('unidadesmensuales');
-        $productos->stock=$request->get('stock');
-        $productos->precio=$request->get('precio');
+        $productos = new Producto();
+        $productos->codigo = $request->get('codigo');
+        $productos->nombre = $request->get('nombre');
+        $productos->costoPorOrden = $request->get('costopororden');
+        $productos->costoDeMantenimiento = $request->get('costodemantenimiento');
+        $productos->unidadesAnuales = $request->get('unidadesanuales');
+        $productos->unidadesMensuales = $request->get('unidadesmensuales');
+        $productos->stockTeorico = $request->get('stock');
+        $productos->stockReal = 0;
+        $productos->precio = $request->get('precio');
 
         $productos->save();
 
+        $reportes = new Reportes();
+        $reportes->id_producto = $productos->id_producto;
+        $reportes->inventarioPromedio = $reportes->promedioInventario($productos->unidadesAnuales, $productos->unidadesMensuales);
+        $reportes->costoConservacion = $reportes->calculateCostoConservacion($productos->costoDeMantenimiento, $productos->precio, $reportes->inventarioPromedio);
+        $reportes->costoPedido = $reportes->calculateCostoPedido($productos->costoPorOrden, $productos->unidadesAnuales, $reportes->inventarioPromedio);
+        $reportes->indiceExactitud = 0;
+        $reportes->save();
+        
         return redirect('/productos');
 
-        $id = DB::table('costodeconservacions')->get('id')
-        ->max('id');
-
-        $query = DB::table('costodeconservacions')->store([
-            'codigo' => $request->input('codigo'),
-            'nombre'=>$request->input('nombre'),        
-            'nombre'=>$request->input('costodemantenimiento'),
-            'nombre'=>$request->input('unidadesanuales'),
-            'nombre'=>$request->input('unidadesmensuales'),
-            'nombre'=>$request->input('precio'),
-            
-            
-        ]);
 
     }
 
@@ -86,8 +85,8 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        $producto  =Producto::find($id);
-        return view('producto.edit')->with('producto',$producto);
+        $producto  = Producto::find($id);
+        return view('producto.edit')->with('producto', $producto);
     }
 
     /**
@@ -99,15 +98,15 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $producto  =Producto::find($id);
-        $producto->codigo=$request->get('codigo');
-        $producto->nombre=$request->get('nombre');
-        $producto->costopororden=$request->get('costopororden');
-        $producto->costodemantenimiento=$request->get('costodemantenimiento');
-        $producto->unidadesanuales=$request->get('unidadesanuales');
-        $producto->unidadesmensuales=$request->get('unidadesmensuales');
-        $producto->stock=$request->get('stock');
-        $producto->precio=$request->get('precio');
+        $producto  = Producto::find($id);
+        $producto->codigo = $request->get('codigo');
+        $producto->nombre = $request->get('nombre');
+        $producto->costopororden = $request->get('costopororden');
+        $producto->costodemantenimiento = $request->get('costodemantenimiento');
+        $producto->unidadesanuales = $request->get('unidadesanuales');
+        $producto->unidadesmensuales = $request->get('unidadesmensuales');
+        $producto->stockTeorico = $request->get('stock');
+        $producto->precio = $request->get('precio');
 
         $producto->save();
 
@@ -122,10 +121,10 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $producto  =Producto::find($id);
+        $producto  = Producto::find($id);
         $producto->delete($id);
 
-        
+
         return redirect('/productos');
     }
 }

@@ -3,7 +3,7 @@
 @section('title', 'Inventario')
 
 @section('content_header')
-    <h1>Costo de conservacion</h1>
+    <h1>Costo de Pedido</h1>
 @stop
 
 @section('content')
@@ -15,30 +15,26 @@
             <th scope="col">Fecha</th>
             <th scope="col">Codigo</th>
             <th scope="col">Nombre</th>            
-            <th scope="col">Costo Mantenimiento</th>
+            <th scope="col">Costo Fijo por Orden</th>
             <th scope="col">Unidades Anuales</th>
-            <th scope="col">Unidades Mensuales</th>            
-            <th scope="col">Precio</th>
             <th scope="col">Inventario Promedio</th>
-            <th scope="col">CTM</th>
+            <th scope="col">CTO</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($costosConservacion as $dataCostoConservacion)
+        @foreach($costosPedido as $dataCostoPedidos)
             <tr>
-                <td>{{$dataCostoConservacion->id_producto}} </td>
-                <td>{{$dataCostoConservacion->created_at}} </td>
-                <td>{{$dataCostoConservacion->codigo}} </td>
-                <td>{{$dataCostoConservacion->nombre}} </td>                
-                <td>{{$dataCostoConservacion->costoDeMantenimiento}} % </td>
-                <td>{{$dataCostoConservacion->unidadesAnuales}} </td>
-                <td>{{$dataCostoConservacion->unidadesMensuales}} </td>
-                <td>{{$dataCostoConservacion->precio}} </td>
-                <td>{{$dataCostoConservacion->inventarioPromedio}} </td>                
-                <td>{{$dataCostoConservacion->costoConservacion}} </td>
+                <td>{{$dataCostoPedidos->id_producto}} </td>
+                <td>{{$dataCostoPedidos->created_at}} </td>
+                <td>{{$dataCostoPedidos->codigo}} </td>
+                <td>{{$dataCostoPedidos->nombre}} </td>                
+                <td>{{$dataCostoPedidos->costoPorOrden}} </td>
+                <td>{{$dataCostoPedidos->unidadesAnuales}} </td>
+                <td>{{$dataCostoPedidos->inventarioPromedio}} </td>                
+                <td>{{$dataCostoPedidos->costoPedido}} </td>
                 <td>
-                    <form action="{{route ('costodeconservacions.destroy',$dataCostoConservacion->id_producto)}}" method="POST">
+                    <form action="{{route ('costodeconservacions.destroy',$dataCostoPedidos->id_producto)}}" method="POST">
                     
                     @csrf
                     @method('DELETE')

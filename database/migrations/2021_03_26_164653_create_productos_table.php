@@ -13,15 +13,16 @@ class CreateProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->string('codigo',10);
+        Schema::create('producto', function (Blueprint $table) {
+            $table->id('id_producto');
+            $table->string('codigo',50);
             $table->string('nombre',100);
-            $table->integer('costopororden');
-            $table->integer('costodemantenimiento');
-            $table->integer('unidadesanuales');
-            $table->integer('unidadesmensuales');
-            $table->integer('stock');
+            $table->decimal('costoPorOrden',8,2);
+            $table->decimal('costoDeMantenimiento',8,2);
+            $table->integer('unidadesAnuales');
+            $table->integer('unidadesMensuales');
+            $table->integer('stockTeorico');
+            $table->integer('stockReal');
             $table->decimal('precio',8,2);
             $table->timestamps();
         });
@@ -34,6 +35,6 @@ class CreateProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('productos');
+        Schema::dropIfExists('producto');
     }
 }

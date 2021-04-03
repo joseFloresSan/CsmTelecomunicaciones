@@ -15,10 +15,10 @@
             <th scope="col">ID</th>
             <th scope="col">Codigo</th>
             <th scope="col">Nombre</th>
-            <th scope="col">CostoPorOrden</th>
-            <th scope="col">CostoDeMantenimiento</th>
-            <th scope="col">UnidadesAnuales</th>
-            <th scope="col">UnidadesMensuales</th>
+            <th scope="col">Costo Por Orden</th>
+            <th scope="col">Costo De  <br> Mantenimiento</th>
+            <th scope="col">Unidades <br> Anuales</th>
+            <th scope="col">Unidades  <br> Mensuales</th>
             <th scope="col">Stock</th>
             <th scope="col">Precio</th>
             <th scope="col">Acciones</th>
@@ -27,18 +27,18 @@
     <tbody>
         @foreach($productos as $producto)
             <tr>
-                <td>{{$producto->id}} </td>
+                <td>{{$producto->id_producto}} </td>
                 <td>{{$producto->codigo}} </td>
                 <td>{{$producto->nombre}} </td>
-                <td>{{$producto->costopororden}} </td>
-                <td>{{$producto->costodemantenimiento}} </td>
-                <td>{{$producto->unidadesanuales}} </td>
-                <td>{{$producto->unidadesmensuales}} </td>
-                <td>{{$producto->stock}} </td>
+                <td>{{$producto->costoPorOrden}} </td>
+                <td>{{$producto->costoDeMantenimiento}} % </td>
+                <td>{{$producto->unidadesAnuales}} </td>
+                <td>{{$producto->unidadesMensuales}} </td>
+                <td>{{$producto->stockTeorico}} </td>
                 <td>{{$producto->precio}} </td>
                 <td>
-                    <form action="{{route ('productos.destroy',$producto->id)}}" method="POST">
-                    <a  href="/productos/{{$producto->id}}/edit" class="btn btn-info">Editar</a>
+                    <form action="{{route ('productos.destroy',$producto->id_producto)}}" method="POST">
+                    <a  href="/productos/{{$producto->id_producto}}/edit" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Borrar</button>
